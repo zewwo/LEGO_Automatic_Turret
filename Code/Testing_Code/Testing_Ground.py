@@ -11,10 +11,13 @@ BrickPiSetup();
 # obtain motor ports and initialize them
 tiltMotor = PORT_A
 BrickPi.MotorEnable[tiltMotor] = 1
-shootMotor = ""
+shootMotor = PORT_B
+BrickPi.MotorEnable[shootMotor] = 1
 
 # obtain tilt(touch) sensors and initialize tilt sensors
-tiltMax = PORT_1
+tiltMin = PORT_1
+BrickPi.SensorType[tiltMin] = TYPE_SENSOR_TOUCH
+tiltMax = PORT_2
 BrickPi.SensorType[tiltMax] = TYPE_SENSOR_TOUCH
 
 # setup tilt sensors
@@ -38,13 +41,13 @@ while ans.lower() != "q":
 	print "Input Q to exit the Testing Ground!" 
 	print ""
 
-        ans = raw_input("Your input : ");
+    ans = raw_input("Your input : ");
 	if  ans.lower() == "t":
 		tilt = ""
-		
+                        	        	        
 		while tilt.lower() != "b":
-			# set the brick pi to stop at 1s
-			BrickPi.Timeout = 1000
+			# set the brick pi to stop at 500ms
+			BrickPi.Timeout = 500
 			BrickPiSetTimeout()
 			
 			print ""
@@ -56,9 +59,11 @@ while ans.lower() != "q":
 			if tilt.lower() == "u":
 				BrickPi.MotorSpeed[tiltMotor] = -255    # go up
 			elif tilt.lower() == "d":
-				BrickPi.MotorSpeed[tiltMotor] = 255	# go down
+				BrickPi.MotorSpeed[tiltMotor] = 255	    # go down
 			elif tilt.lower() == "s":
-				BrickPi.MotorSpeed[tiltMotor] = 0
+				BrickPi.MotorSpeed[tiltMotor] = 0       # stop the motor
         		BrickPiUpdateValues()				# update tilt values
+	
+	
 	BrickPiUpdateValues()
         
