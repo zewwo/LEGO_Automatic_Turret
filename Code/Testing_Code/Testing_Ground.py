@@ -16,6 +16,7 @@
 
 # COMMANDS ARE IN THE PROMPT
 # REQUIRES BATTERIES BECAUSE MOTORS WILL ONLY WORK IN LOW IF ITS POWERED BY USB. BATTERIES = HIGH POWER ON MOTOR
+# TEST LEGO TURRET v2.2 + v3.3 + v3.4
 
 # import every function from the BrickPi script
 from BrickPi import *
@@ -50,13 +51,13 @@ def tiltTest():
 		tilt = raw_input("Up or Down : ")
 			
 		if tilt.lower() == "u":
-			if BrickPi.Sensor[tiltMax] == 1	:			# check if its at max
+			if BrickPi.Sensor[tiltMax] == 1:			# check if its at max
 				print "Cannot go up any further!"
 			else:
 				BrickPi.MotorSpeed[tiltMotor] = -230    # go up
 			BrickPiUpdateValues()	
 		elif tilt.lower() == "d":
-			if BrickPi.Sensor[tiltMin] == 1	:			# check if its at min
+			if BrickPi.Sensor[tiltMin] == 1:			# check if its at min
 				print "Cannot go down any further!"
 			else:
 				BrickPi.MotorSpeed[tiltMotor] = 150	    # go down
