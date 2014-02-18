@@ -1,4 +1,4 @@
-LEGO_Automatic_Turret
+LEGO "Automatic" Turret
 =====================
 
 *Git Repository created by Kevin Nguyen.*
