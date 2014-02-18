@@ -15,6 +15,7 @@
 ''
 
 # COMMANDS ARE IN THE PROMPT
+# REQUIRES BATTERIES BECAUSE MOTORS WILL ONLY WORK IN LOW IF ITS POWERED BY USB. BATTERIES = HIGH POWER ON MOTOR
 
 # import every function from the BrickPi script
 from BrickPi import *
@@ -53,26 +54,28 @@ def tiltTest():
 				print "Cannot go up any further!"
 			else:
 				BrickPi.MotorSpeed[tiltMotor] = -230    # go up
+			BrickPiUpdateValues()	
 		elif tilt.lower() == "d":
 			if BrickPi.Sensor[tiltMin] == 1	:			# check if its at min
 				print "Cannot go down any further!"
 			else:
 				BrickPi.MotorSpeed[tiltMotor] = 150	    # go down
+			BrickPiUpdateValues()	
 		elif tilt.lower() == "s":
 			BrickPi.MotorSpeed[tiltMotor] = 0       # stop the motor
-       	BrickPiUpdateValues()						# update tilt values
-
+			BrickPiUpdateValues()	
+			
 # function which test the shooting motor
 def shootTest():
 	shoot = ""
 	
-	while shoot.lower() != "b"
+	while shoot.lower() != "b":
 		# set the brick pi to stop at 750ms
 		BrickPi.Timeout = 750
 		BrickPiSetTimeout()
 		print "\nInput S to shoot or B to go back!"
 		shoot = raw_input("Your Input : ")
-		if shoot.lower() == "s";
+		if shoot.lower() == "s":
 			BrickPi.MotorSpeed[shootMotor] = 255
 		BrickPiUpdateValues()
 		
@@ -119,5 +122,3 @@ while ans.lower() != "q":
 		shootTest()
 	elif ans.lower() == "m":
 		sensorTest()
-	
-	BrickPiUpdateValues()
