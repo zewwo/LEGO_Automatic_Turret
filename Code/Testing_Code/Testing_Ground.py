@@ -36,7 +36,8 @@ BrickPi.SensorType[tiltMax] = TYPE_SENSOR_TOUCH
 
 
 BrickPiSetupSensors()								# setup tilt sensors
-
+ans = ""
+	
 # function which test the tilt motor
 def tiltTest():
 	tilt = ""
@@ -71,8 +72,8 @@ def shootTest():
 	shoot = ""
 	
 	while shoot.lower() != "b":
-		# set the brick pi to stop at 750ms
-		BrickPi.Timeout = 750
+		# set the brick pi to stop at 500ms
+		BrickPi.Timeout = 500
 		BrickPiSetTimeout()
 		print "\nInput S to shoot or B to go back!"
 		shoot = raw_input("Your Input : ")
@@ -86,11 +87,12 @@ def sensorTest():
 	
 	while sensor.lower() != "b":
 		print "\nInput min to test the tilt MIN sensor"
-		print "or max to test the tilt MAX sensor or B to go back!\n"
+		print "or max to test the tilt MAX sensor or B to go back!"
+		print "or both to test BOTH sensors 10 times in a loop\n"
 		sensor = raw_input("Your Input : ")
 		
 		if sensor.lower() == "min":
-			while BrickPi.Sensor[tiltMin] == 0			# keep going down until it hits min
+			while BrickPi.Sensor[tiltMin] == 0:			# keep going down until it hits min
 				BrickPi.MotorSpeed[tiltMotor] = 150
 				BrickPiUpdateValues()
 				print "tiltMin is currently : " + (BrickPi.Sensor[tiltMin]).str()
@@ -98,18 +100,31 @@ def sensorTest():
 			print "Tilt hit the minimum where tiltMin is " + (BrickPi.Sensor[tiltMin]).str()
 			
 		elif sensor.lower() == "max":
-			while BrickPi.Sensor[tiltMax] == 0			# keep going down until it hits max
+			while BrickPi.Sensor[tiltMax] == 0:			# keep going down until it hits max
 				BrickPi.MotorSpeed[tiltMotor] = -230
 				BrickPiUpdateValues()
 				print "tiltMax is currently : " + (BrickPi.Sensor[tiltMax]).str()
 			BrickPi.MotorSpeed[tiltMotor] = 0
 			print "Tilt hit the minimum where tiltMax is " + (BrickPi.Sensor[tiltMax]).str()
-		
+			
+		elif sensor.lower() == "both":
+			while i < 10:								# go up and down 10 times
+				while BrickPi.Sensor[tiltMax] == 0:			
+					BrickPi.MotorSpeed[tiltMotor] = -230
+					BrickPiUpdateValues()
+				BrickPi.MotorSpeed[tiltMotor] = 0
+				print "Tilt hit the minimum where tiltMax is " + (BrickPi.Sensor[tiltMax]).str()
+			
+				while BrickPi.Sensor[tiltMin] == 0:			
+					BrickPi.MotorSpeed[tiltMotor] = 150
+					BrickPiUpdateValues()
+				BrickPi.MotorSpeed[tiltMotor] = 0
+				print "Tilt hit the minimum where tiltMin is " + (BrickPi.Sensor[tiltMin]).str()				
+				i+=1
+			
 		BrickPiUpdateValues()
 		
 while ans.lower() != "q":
-	ans = ""
-
 	print "\nLEGO Turret Testing Grounds!\n"
 	print "Input T to test the Tilt Motor!"			# basic tilt with no shooter on top
 	print "Input S to test the Shooting Motor!"		# shoot balls
