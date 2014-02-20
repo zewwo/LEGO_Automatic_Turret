@@ -44,34 +44,39 @@ def tiltTest():
                         	        	        
 	while tilt.lower() != "b":
 		# set the brick pi to stop at 500ms
-		BrickPi.Timeout = 150
+		BrickPi.Timeout = 500
 		BrickPiSetTimeout()
 			
 		print "\nInput U to go up (+y) or D to go down (-y)"
-		print "\nor S to Stop the Motor or B to go back"
+		print "or S to Stop the Motor or B to go back"
 		tilt = raw_input("Up or Down : ")
-			
+		
 		if tilt.lower() == "u":
+			BrickPiUpdateValues()
 			if BrickPi.Sensor[tiltMax] == 1:			# check if its at max
+				BrickPi.MotorSpeed[tiltMotor] = 0
 				print "Cannot go up any further!"
 			else:
-				BrickPi.MotorSpeed[tiltMotor] = -150    # go up
-			BrickPiUpdateValues()	
+				BrickPi.MotorSpeed[tiltMotor] = -150    # go up	
+			BrickPiUpdateValues()
 		elif tilt.lower() == "d":
+			BrickPiUpdateValues()
 			if BrickPi.Sensor[tiltMin] == 1:			# check if its at min
+				BrickPi.MotorSpeed[tiltMotor] = 0
 				print "Cannot go down any further!"
 			else:
-				BrickPi.MotorSpeed[tiltMotor] = 150	    # go down
+				BrickPi.MotorSpeed[tiltMotor] = 50	    # go down
 			BrickPiUpdateValues()	
 		elif tilt.lower() == "s":
+			BrickPiUpdateValues()
 			BrickPi.MotorSpeed[tiltMotor] = 0       # stop the motor
-			BrickPiUpdateValues()	
+			BrickPiUpdateValues()
 			
 # function which test the shooting motor
 def shootTest():
 	shoot = ""
 	
-	while shoot.lower() != "b":
+	while shoot.lower() != "b":	
 		# set the brick pi to stop at 250ms
 		BrickPi.Timeout = 150
 		BrickPiSetTimeout()
@@ -88,41 +93,48 @@ def sensorTest():
 	while sensor.lower() != "b":
 		print "\nInput min to test the tilt MIN sensor"
 		print "or max to test the tilt MAX sensor or B to go back!"
-		print "or both to test BOTH sensors 10 times in a loop\n"
+		print "or both to test BOTH sensors 10 times in a loop"
 		sensor = raw_input("Your Input : ")
 		
 		if sensor.lower() == "min":
+			BrickPiUpdateValues()
 			while BrickPi.Sensor[tiltMin] == 0:			# keep going down until it hits min
-				BrickPi.MotorSpeed[tiltMotor] = 150
+				BrickPi.MotorSpeed[tiltMotor] = 50
 				BrickPiUpdateValues()
-				print "tiltMin is currently : " + (BrickPi.Sensor[tiltMin]).str()
-			BrickPi.MotorSpeed[tiltMotor] = 0
-			print "Tilt hit the minimum where tiltMin is " + (BrickPi.Sensor[tiltMin]).str()
+				print "tiltMin is currently : 0" 
+				BrickPi.MotorSpeed[tiltMotor] = 0
+			print "Tilt hit the minimum where tiltMin is 1"
+			BrickPiUpdateValues()
 			
 		elif sensor.lower() == "max":
+			BrickPiUpdateValues()
 			while BrickPi.Sensor[tiltMax] == 0:			# keep going down until it hits max
-				BrickPi.MotorSpeed[tiltMotor] = -150
+				BrickPi.MotorSpeed[tiltMotor] = -50
 				BrickPiUpdateValues()
-				print "tiltMax is currently : " + (BrickPi.Sensor[tiltMax]).str()
+				print "tiltMax is currently : 0"
 			BrickPi.MotorSpeed[tiltMotor] = 0
-			print "Tilt hit the maximum where tiltMax is " + (BrickPi.Sensor[tiltMax]).str()
+			print "Tilt hit the maximum where tiltMax is 1"
+			BrickPiUpdateValues()
 			
 		elif sensor.lower() == "both":
+			BrickPiUpdateValues()
+			i = 0
 			while i < 10:								# go up and down 10 times
 				while BrickPi.Sensor[tiltMax] == 0:			
-					BrickPi.MotorSpeed[tiltMotor] = -150
+					BrickPi.MotorSpeed[tiltMotor] = -50
 					BrickPiUpdateValues()
 				BrickPi.MotorSpeed[tiltMotor] = 0
-				print "Tilt hit the maximum where tiltMax is " + (BrickPi.Sensor[tiltMax]).str()
-			
+				BrickPiUpdateValues()
+				print "Tilt hit the maximum where tiltMax is 1"
+				
 				while BrickPi.Sensor[tiltMin] == 0:			
-					BrickPi.MotorSpeed[tiltMotor] = 150
+					BrickPi.MotorSpeed[tiltMotor] = 50
 					BrickPiUpdateValues()
 				BrickPi.MotorSpeed[tiltMotor] = 0
-				print "Tilt hit the minimum where tiltMin is " + (BrickPi.Sensor[tiltMin]).str()				
+				BrickPiUpdateValues()
+				print "Tilt hit the minimum where tiltMin is 1"		
 				i+=1
-			
-		BrickPiUpdateValues()
+		
 		
 while ans.lower() != "q":
 	print "\nLEGO Turret Testing Grounds!\n"
@@ -131,7 +143,8 @@ while ans.lower() != "q":
 	print "Input M to test the Tilt Sensors!"		# loop for 10 seconds going up and down while hitting sensors
 	print "Input Q to exit the Testing Ground!\n" 
 
-    ans = raw_input("Your input : ")
+	ans = raw_input("Your input : ")
+
 	if  ans.lower() == "t":
 		tiltTest()
 	elif ans.lower() == "s":
