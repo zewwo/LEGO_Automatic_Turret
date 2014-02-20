@@ -44,7 +44,7 @@ def tiltTest():
                         	        	        
 	while tilt.lower() != "b":
 		# set the brick pi to stop at 500ms
-		BrickPi.Timeout = 500
+		BrickPi.Timeout = 150
 		BrickPiSetTimeout()
 			
 		print "\nInput U to go up (+y) or D to go down (-y)"
@@ -55,7 +55,7 @@ def tiltTest():
 			if BrickPi.Sensor[tiltMax] == 1:			# check if its at max
 				print "Cannot go up any further!"
 			else:
-				BrickPi.MotorSpeed[tiltMotor] = -230    # go up
+				BrickPi.MotorSpeed[tiltMotor] = -150    # go up
 			BrickPiUpdateValues()	
 		elif tilt.lower() == "d":
 			if BrickPi.Sensor[tiltMin] == 1:			# check if its at min
@@ -72,8 +72,8 @@ def shootTest():
 	shoot = ""
 	
 	while shoot.lower() != "b":
-		# set the brick pi to stop at 500ms
-		BrickPi.Timeout = 500
+		# set the brick pi to stop at 250ms
+		BrickPi.Timeout = 150
 		BrickPiSetTimeout()
 		print "\nInput S to shoot or B to go back!"
 		shoot = raw_input("Your Input : ")
@@ -101,19 +101,19 @@ def sensorTest():
 			
 		elif sensor.lower() == "max":
 			while BrickPi.Sensor[tiltMax] == 0:			# keep going down until it hits max
-				BrickPi.MotorSpeed[tiltMotor] = -230
+				BrickPi.MotorSpeed[tiltMotor] = -150
 				BrickPiUpdateValues()
 				print "tiltMax is currently : " + (BrickPi.Sensor[tiltMax]).str()
 			BrickPi.MotorSpeed[tiltMotor] = 0
-			print "Tilt hit the minimum where tiltMax is " + (BrickPi.Sensor[tiltMax]).str()
+			print "Tilt hit the maximum where tiltMax is " + (BrickPi.Sensor[tiltMax]).str()
 			
 		elif sensor.lower() == "both":
 			while i < 10:								# go up and down 10 times
 				while BrickPi.Sensor[tiltMax] == 0:			
-					BrickPi.MotorSpeed[tiltMotor] = -230
+					BrickPi.MotorSpeed[tiltMotor] = -150
 					BrickPiUpdateValues()
 				BrickPi.MotorSpeed[tiltMotor] = 0
-				print "Tilt hit the minimum where tiltMax is " + (BrickPi.Sensor[tiltMax]).str()
+				print "Tilt hit the maximum where tiltMax is " + (BrickPi.Sensor[tiltMax]).str()
 			
 				while BrickPi.Sensor[tiltMin] == 0:			
 					BrickPi.MotorSpeed[tiltMotor] = 150
