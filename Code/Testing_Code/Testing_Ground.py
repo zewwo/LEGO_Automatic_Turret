@@ -9,7 +9,7 @@
 # Kevin		02.14.14	Creation Date with basic test for tilt.
 #  ""		02.15.14	Added prompt screen, setup motors + sensors, added complex testing for tilt.
 #  ""		02.17.14	Added Shooting Test, Sensor Test, Commenting, Min/Max for tilt test
-#  ""		02.18.14	
+#  ""		02.22.14	Change motor, sensor ports
 #
 #######################################################
 ''
@@ -24,14 +24,14 @@ from BrickPi import *
 
 BrickPiSetup();										# setup motor input
 
-tiltMotor = PORT_A									# obtain motor ports and initialize them
+tiltMotor = PORT_B									# obtain motor ports and initialize them
 BrickPi.MotorEnable[tiltMotor] = 1
-shootMotor = PORT_B
+shootMotor = PORT_A
 BrickPi.MotorEnable[shootMotor] = 1
 
 tiltMin = PORT_1									# obtain tilt(touch) sensors and initialize tilt sensors
 BrickPi.SensorType[tiltMin] = TYPE_SENSOR_TOUCH
-tiltMax = PORT_2
+tiltMax = PORT_5
 BrickPi.SensorType[tiltMax] = TYPE_SENSOR_TOUCH
 
 
@@ -91,35 +91,13 @@ def sensorTest():
 	sensor = ""
 	
 	while sensor.lower() != "b":
-		print "\nInput min to test the tilt MIN sensor"
-		print "or max to test the tilt MAX sensor or B to go back!"
-		print "or both to test BOTH sensors 10 times in a loop"
+		print "\nInput test to test the sensors!"
 		sensor = raw_input("Your Input : ")
-		
-		if sensor.lower() == "min":
-			BrickPiUpdateValues()
-			while BrickPi.Sensor[tiltMin] == 0:			# keep going down until it hits min
-				BrickPi.MotorSpeed[tiltMotor] = 50
-				BrickPiUpdateValues()
-				print "tiltMin is currently : 0" 
-				BrickPi.MotorSpeed[tiltMotor] = 0
-			print "Tilt hit the minimum where tiltMin is 1"
-			BrickPiUpdateValues()
-			
-		elif sensor.lower() == "max":
-			BrickPiUpdateValues()
-			while BrickPi.Sensor[tiltMax] == 0:			# keep going down until it hits max
-				BrickPi.MotorSpeed[tiltMotor] = -50
-				BrickPiUpdateValues()
-				print "tiltMax is currently : 0"
-			BrickPi.MotorSpeed[tiltMotor] = 0
-			print "Tilt hit the maximum where tiltMax is 1"
-			BrickPiUpdateValues()
-			
-		elif sensor.lower() == "both":
+
+		if sensor.lower() == "test":
 			BrickPiUpdateValues()
 			i = 0
-			while i < 10:								# go up and down 10 times
+			while i < 10:										# go up and down 10 times
 				while BrickPi.Sensor[tiltMax] == 0:			
 					BrickPi.MotorSpeed[tiltMotor] = -50
 					BrickPiUpdateValues()
