@@ -7,7 +7,7 @@
 # ---------------------------------
 # Author	Date		Comment
 # Kevin		02.22.14	Created, added Key Press inputs for testing
-#
+#  ""		02.23.14	Removed Tkinter. Added Threading for Stop Requests (Doesn't work yet)
 #######################################################
 ''
 
@@ -20,7 +20,7 @@
 
 
 from BrickPi import *
-import Tkinter
+import thread
 
 BrickPiSetup();										# setup motor input
 
@@ -31,73 +31,63 @@ BrickPi.MotorEnable[tiltMotor] = 1
 
 tiltMin = PORT_1									# obtain tilt(touch) sensors and initialize tilt sensors
 BrickPi.SensorType[tiltMin] = TYPE_SENSOR_TOUCH
-tiltMax = PORT_5
+tiltMax = PORT_2
 BrickPi.SensorType[tiltMax] = TYPE_SENSOR_TOUCH
 
 
 BrickPiSetupSensors()								# setup tilt sensors
-root = Tkinter.Tk()									# initialize tkinter
-ans = ""
+myinput = ""
+flag = False
 
-def keypress(event):
-	key = event.char
-	
-	if key == "b":									# break the loop if b was pressed
-		break
-	elif event.keysym == 'Escape':					# ???
-		root.destroy()
-	# else if turn the motor on, update values
-
-def up():	
-	while BrickPi.Sensor[tiltMax] == 0:				# keep going up until it hits the tilt sensor at max
-		BrickPi.MotorSpeed[tiltMotor] = -50
-		BrickPiUpdateValues()
+def stopThread():
+	stop = ""
+	flag = False
+	while BrickPi.Sensor[tiltMax] == 0:
+		stop = raw_input("Stop? ")
 		
-		root.bind_all('<Key>', keypress)			# read a key press to break the loop and go back to main menu
-		root.withdraw()
-		root.mainloop()								
+		if stop == "b":
+			break	
+	
+def up():	
+	BrickPiUpdateValues()
+	
+	try:
+		thread.start_new_thread(stopThread, () )				# start a thread for user input for stop
+	except:
+		print "Unable to start Thread"
+		
+	while BrickPi.Sensor[tiltMax] == 0:				# keep going up until it hits the tilt sensor at max
+		BrickPi.MotorSpeed[tiltMotor] = -145
+		BrickPiUpdateValues()					
 		
 	BrickPi.MotorSpeed[tiltMotor] = 0				# turn off the motor
 	BrickPiUpdateValues()
 	
 def down():
+	BrickPiUpdateValues()
+	
 	while BrickPi.Sensor[tiltMin] == 0:				# keep going up until it hits the tilt sensor at max
 		BrickPi.MotorSpeed[tiltMotor] = 50
 		BrickPiUpdateValues()		
-		
-		root.bind_all('<Key>', keypress)			# read a key press to break the loop and go back to main menu
-		root.withdraw()
-		root.mainloop()								
-		
+							
 	BrickPi.MotorSpeed[tiltMotor] = 0				# turn off the motor
 	BrickPiUpdateValues()
 			
 # function which test the shooting motor
 def shoot():
-	while True:	
-		# set the brick pi to stop at 150ms
-		BrickPi.Timeout = 150
-		BrickPiSetTimeout()
-		BrickPi.MotorSpeed[shootMotor] = 255		# turn the motor on to shoot
-		BrickPiUpdateValues()
-		
-		root.bind_all('<Key>', keypress)			# read a key press to break the loop and go back to main menu
-		root.withdraw()
-		root.mainloop()		
-		
-while ans.lower() != "q":
+	BrickPi.MotorSpeed[shootMotor] = 255		# turn the motor on to shoot
+	BrickPiUpdateValues()
 
-	ans = raw_input("Input (Q to quit) : ")
+		
+while myinput.lower() != "q":
+	BrickPi.Timeout = 250
+	BrickPiSetTimeout()
+	
+	myinput = raw_input("Input (Q to quit) : ")
 
-	if  ans.lower() == "u":			# aim up
+	if  myinput.lower() == "u":			# aim up
 		up()
-	elif ans.lower() == "d":		# aim down
+	elif myinput.lower() == "d":		# aim down
 		down()
-	elif ans.lower() == "s":		# shoot
+	elif myinput.lower() == "s":		# shoot
 		shoot()
-	
-	
-	#root.bind_all('<Key>', keypress)			# uncomment if we place the functions in the key press if-else branches
-	#root.withdraw()
-	#root.mainloop()		
-	# maybe use threads to manage the motors running and key inputs?

@@ -31,7 +31,7 @@ BrickPi.MotorEnable[shootMotor] = 1
 
 tiltMin = PORT_1									# obtain tilt(touch) sensors and initialize tilt sensors
 BrickPi.SensorType[tiltMin] = TYPE_SENSOR_TOUCH
-tiltMax = PORT_5
+tiltMax = PORT_2
 BrickPi.SensorType[tiltMax] = TYPE_SENSOR_TOUCH
 
 
@@ -44,7 +44,7 @@ def tiltTest():
                         	        	        
 	while tilt.lower() != "b":
 		# set the brick pi to stop at 500ms
-		BrickPi.Timeout = 500
+		BrickPi.Timeout = 1000
 		BrickPiSetTimeout()
 			
 		print "\nInput U to go up (+y) or D to go down (-y)"
@@ -57,7 +57,7 @@ def tiltTest():
 				BrickPi.MotorSpeed[tiltMotor] = 0
 				print "Cannot go up any further!"
 			else:
-				BrickPi.MotorSpeed[tiltMotor] = -150    # go up	
+				BrickPi.MotorSpeed[tiltMotor] = -140    # go up	
 			BrickPiUpdateValues()
 		elif tilt.lower() == "d":
 			BrickPiUpdateValues()
@@ -65,7 +65,7 @@ def tiltTest():
 				BrickPi.MotorSpeed[tiltMotor] = 0
 				print "Cannot go down any further!"
 			else:
-				BrickPi.MotorSpeed[tiltMotor] = 50	    # go down
+				BrickPi.MotorSpeed[tiltMotor] = 25	    # go down
 			BrickPiUpdateValues()	
 		elif tilt.lower() == "s":
 			BrickPiUpdateValues()
@@ -99,7 +99,7 @@ def sensorTest():
 			i = 0
 			while i < 10:										# go up and down 10 times
 				while BrickPi.Sensor[tiltMax] == 0:			
-					BrickPi.MotorSpeed[tiltMotor] = -50
+					BrickPi.MotorSpeed[tiltMotor] = -140
 					BrickPiUpdateValues()
 				BrickPi.MotorSpeed[tiltMotor] = 0
 				BrickPiUpdateValues()

@@ -56,6 +56,7 @@ PORT_1 = 0
 PORT_2 = 1
 PORT_3 = 2
 PORT_4 = 3
+PORT_5 = 4
 
 MASK_D0_M = 0x01
 MASK_D1_M = 0x02
