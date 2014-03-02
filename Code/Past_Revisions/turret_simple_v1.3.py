@@ -33,11 +33,11 @@ import termios
 
 BrickPiSetup();										# setup motor input
 
-shootMotor = PORT_A									# obtain motor ports and initialize them
+shootMotor = PORT_B									# obtain motor ports and initialize them
 BrickPi.MotorEnable[shootMotor] = 1
-tiltMotor = PORT_B									
+tiltMotor = PORT_C									
 BrickPi.MotorEnable[tiltMotor] = 1
-rotateMotor = PORT_C
+rotateMotor = PORT_A
 BrickPi.MotorEnable[rotateMotor] = 1
 
 
