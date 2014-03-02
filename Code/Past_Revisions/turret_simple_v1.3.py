@@ -67,7 +67,7 @@ def up():
 				if key == 'b':					# stop if user press b
 					break						# if there is a key input, break out of loop
 			else:
-				BrickPi.MotorSpeed[tiltMotor] = -255	
+				BrickPi.MotorSpeed[tiltMotor] = -150	
 				BrickPiUpdateValues()	
 	finally:
 		termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_setting)	# when done, revert back to old settings
@@ -90,7 +90,7 @@ def down():
 				if key == 'b':				
 					break
 			else:
-				BrickPi.MotorSpeed[tiltMotor] = 50
+				BrickPi.MotorSpeed[tiltMotor] = 25
 				BrickPiUpdateValues()		
 	finally:
 		termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_setting)
@@ -134,7 +134,7 @@ def turnLeft():
 				if key == 'b':					# stop if user press b
 					break					
 			else:
-				BrickPi.MotorSpeed[rotateMotor] = -150
+				BrickPi.MotorSpeed[rotateMotor] = -100
 				BrickPiUpdateValues()	
 	finally:
 		termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_setting)		
@@ -155,7 +155,7 @@ def turnRight():
 				if key == 'b':					# stop if user press b
 					break					
 			else:
-				BrickPi.MotorSpeed[rotateMotor] = 150	
+				BrickPi.MotorSpeed[rotateMotor] = 100	
 				BrickPiUpdateValues()	
 	finally:
 		termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_setting)	
