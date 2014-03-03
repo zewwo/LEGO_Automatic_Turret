@@ -10,7 +10,7 @@
 #######################################################
 ''
 
-# CONTROLS
+# CONTROLS ( TURN WII REMOTE HORIZONTALLY )
 # -------------
 # DPAD UP  	 -> aim up
 # DPAD DOWN  -> aim down
@@ -45,61 +45,33 @@ myinput = ""
 delay = 0.1
 	
 def up():	
-	BrickPiUpdateValues()
-
-	if BrickPi.Sensor[tiltMax] == 0 and buttons & cwiid.BTN_UP:									# keep going up until it hits the tilt sensor at max or until the user lets go of the dpad's up button
+	if BrickPi.Sensor[tiltMax] == 0 and buttons & cwiid.BTN_RIGHT:				# keep going up until it hits the tilt sensor at max or until the user lets go of the dpad's right button
 		BrickPi.MotorSpeed[tiltMotor] = -120
-		BrickPiUpdateValues()	
-	
-	if BrickPi.Sensor[tiltMax] == 1:
-		print "Max"
-		
-	#BrickPi.MotorSpeed[tiltMotor] = 0									# turn off the motor
-	BrickPiUpdateValues()
-	BrickPi.MotorSpeed[tiltMotor] = 0
+		BrickPiUpdateValues()
 
 def down():
-	BrickPiUpdateValues()
-
-	if BrickPi.Sensor[tiltMin] == 0 and buttons & cwiid.BTN_DOWN:								# keep going up until it hits the tilt sensor at max or until the user lets go of the dpad's down button
-		BrickPi.MotorSpeed[tiltMotor] = 25
+	if BrickPi.Sensor[tiltMin] == 0 and buttons & cwiid.BTN_LEFT:				# keep going up until it hits the tilt sensor at max or until the user lets go of the dpad's left button
+		BrickPi.MotorSpeed[tiltMotor] = 25		
 		BrickPiUpdateValues()
-			
-	if BrickPi.Sensor[tiltMin] == 1:
-		print "Min"
-
-	#BrickPi.MotorSpeed[tiltMotor] = 0									# turn off the motor
-	BrickPiUpdateValues()
-	BrickPi.MotorSpeed[tiltMotor] = 0		
 
 def shoot():
-	while True:
-		BrickPi.MotorSpeed[shootMotor] = 255					# turn the motor on to shoot until the user lets go of the B, A, 1, or 2 button
+	if buttons == 1:
+		BrickPi.MotorSpeed[shootMotor] = 255							# turn the motor on to shoot until the user lets go of the 2 button
 		BrickPiUpdateValues()
-				
-	BrickPi.MotorSpeed[shootMotor] = 0
-	BrickPiUpdateValues()
 
 
 def turnLeft():
-	while True:														# turn left until the user lets go of the dpad's left button
+	if buttons & cwiid.BTN_UP:													# turn left until the user lets go of the dpad's left button
 		BrickPi.MotorSpeed[rotateMotor] = -80
 		BrickPiUpdateValues()	
-				
-	BrickPi.MotorSpeed[rotateMotor] = 0									# turn off the motor
-	BrickPiUpdateValues()
 
 	
 def turnRight():
-	while True:														# turn left until the user lets go of the dpad's right button
+	if buttons & cwiid.BTN_DOWN:													# turn left until the user lets go of the dpad's right button
 		BrickPi.MotorSpeed[rotateMotor] = 80	
 		BrickPiUpdateValues()	
 
-	BrickPi.MotorSpeed[rotateMotor] = 0									# turn off the motor
-	BrickPiUpdateValues()
 
-	
-	
 print "Press 1 + 2 on your Wii Remote to connect to the turret..."
 time.sleep(1)
 
@@ -114,10 +86,10 @@ time.sleep(2)
 wii.rumble = 0
 	
 print "Wii Remote has been connected! \n"
-print "\tControls :"
+print "\tControls ( TURN WII REMOTE HORIZONTALLY ):"
 print "DPAD UP = Aim Up\tDPAD DOWN = Aim Down"
 print "DPAD LEFT = Turn Left\tDPAD RIGHT = Turn Right"
-print "\t\tA B 1 2 = Shoot"
+print "\t\t 2 = Shoot"
 print "\n Press + and - to exit the script"
 	
 wii.rpt_mode = cwiid.RPT_BTN											# set the mode to report button presses
@@ -133,23 +105,21 @@ while True:																# exit code when the user press + and - on the remote
 		exit(wii)
 		quit()									
 	
-	if buttons & cwiid.BTN_UP:											# perform function calls according to what the state of the wii remote is
+	if buttons & cwiid.BTN_RIGHT:										# perform function calls according to what the state of the wii remote is
 		up()
-		print "Up"
-		time.sleep(delay)
-	elif buttons & cwiid.BTN_DOWN:										
-		down()
-		print "Down"
-		time.sleep(delay)
 	elif buttons & cwiid.BTN_LEFT:										
-		#turnLeft()	
-		print "Left"
-		time.sleep(delay)
-	elif buttons & cwiid.BTN_RIGHT:										
-		#turnRight()
-		print "Right"
-		time.sleep(delay)
-	elif buttons & cwiid.BTN_A or buttons & cwiid.BTN_B or buttons & cwiid.BTN_1 or buttons & cwiid.BTN_2:
-		#shoot()
-		print "Shoot"
-		time.sleep(delay)
+		down()
+	elif buttons & cwiid.BTN_UP:										
+		turnLeft()	
+	elif buttons & cwiid.BTN_DOWN:										
+		turnRight()
+	elif buttons & cwiid.BTN_2:
+		shoot()
+	
+	if buttons == 0:													# if there are no buttons that are pressed turn all motors off
+		BrickPi.MotorSpeed[shootMotor] = 0
+		BrickPi.MotorSpeed[tiltMotor] = 0	
+		BrickPi.MotorSpeed[rotateMotor] = 0	
+		BrickPiUpdateValues()
+	
+	time.sleep(delay)
