@@ -1,6 +1,6 @@
 ''
 #######################################################
-# Program : 	turret_simple_v1.0
+# Program : 	turret_simple_v1.2
 # Description : This program will perform the basic functions of the LEGO Turret.
 #				It will shoot, tilt up and down, and rotate.
 # History

@@ -4,5 +4,7 @@ Lego Mindstorms						150.00		( used on www.edmonton-kijiji.ca )
 Bullet and Ammo 					~20.00		www.bricklink.com
 
 
-Extra LEGO Parts					60.00		www.ebay.ca
++500 Pieces lot						60.00		www.ebay.ca
++32 Pieces + Touch Sensor			25.00		www.bricklink.com
 PIR Sensor							20.00		www.adafruit.com
+//	Cobbler Kit							12.00		www.active123.com or .ca
