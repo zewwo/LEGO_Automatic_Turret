@@ -48,9 +48,9 @@ flag = True
 def up():	
 	BrickPiUpdateValues()
 
-		while BrickPi.Sensor[tiltMax] == 0 or buttons & cwiid.BTN_UP:	# keep going up until it hits the tilt sensor at max or until the user lets go of the dpad's up button
-				BrickPi.MotorSpeed[tiltMotor] = -145	
-				BrickPiUpdateValues()	
+	while BrickPi.Sensor[tiltMax] == 0 or buttons & cwiid.BTN_UP:	# keep going up until it hits the tilt sensor at max or until the user lets go of the dpad's up button
+		BrickPi.MotorSpeed[tiltMotor] = -145	
+		BrickPiUpdateValues()	
 				
 	BrickPi.MotorSpeed[tiltMotor] = 0									# turn off the motor
 	BrickPiUpdateValues()
@@ -59,36 +59,36 @@ def up():
 def down():
 	BrickPiUpdateValues()
 
-		while BrickPi.Sensor[tiltMin] == 0:								# keep going up until it hits the tilt sensor at max or until the user lets go of the dpad's down button
-				BrickPi.MotorSpeed[tiltMotor] = 15
-				BrickPiUpdateValues()		
+	while BrickPi.Sensor[tiltMin] == 0:								# keep going up until it hits the tilt sensor at max or until the user lets go of the dpad's down button
+		BrickPi.MotorSpeed[tiltMotor] = 15
+		BrickPiUpdateValues()		
 
 	BrickPi.MotorSpeed[tiltMotor] = 0									# turn off the motor
 	BrickPiUpdateValues()
 			
 
 def shoot():
-		while True:
-				BrickPi.MotorSpeed[shootMotor] = 255					# turn the motor on to shoot until the user lets go of the B, A, 1, or 2 button
-				BrickPiUpdateValues()
+	while True:
+		BrickPi.MotorSpeed[shootMotor] = 255					# turn the motor on to shoot until the user lets go of the B, A, 1, or 2 button
+		BrickPiUpdateValues()
 				
 	BrickPi.MotorSpeed[shootMotor] = 0
 	BrickPiUpdateValues()
 
 
 def turnLeft():
-		while True:														# turn left until the user lets go of the dpad's left button
-				BrickPi.MotorSpeed[rotateMotor] = -80
-				BrickPiUpdateValues()	
+	while True:														# turn left until the user lets go of the dpad's left button
+		BrickPi.MotorSpeed[rotateMotor] = -80
+		BrickPiUpdateValues()	
 				
 	BrickPi.MotorSpeed[rotateMotor] = 0									# turn off the motor
 	BrickPiUpdateValues()
 
 	
 def turnRight():
-		while True:														# turn left until the user lets go of the dpad's right button
-				BrickPi.MotorSpeed[rotateMotor] = 80	
-				BrickPiUpdateValues()	
+	while True:														# turn left until the user lets go of the dpad's right button
+		BrickPi.MotorSpeed[rotateMotor] = 80	
+		BrickPiUpdateValues()	
 
 	BrickPi.MotorSpeed[rotateMotor] = 0									# turn off the motor
 	BrickPiUpdateValues()
