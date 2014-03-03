@@ -42,30 +42,35 @@ BrickPi.SensorType[tiltMax] = TYPE_SENSOR_TOUCH
 BrickPiSetupSensors()													# setup tilt sensors
 myinput = ""
 
-delay = 0.2
-flag = True
+delay = 0.1
 	
 def up():	
 	BrickPiUpdateValues()
 
-	while BrickPi.Sensor[tiltMax] == 0 or buttons & cwiid.BTN_UP:	# keep going up until it hits the tilt sensor at max or until the user lets go of the dpad's up button
-		BrickPi.MotorSpeed[tiltMotor] = -145	
+	if BrickPi.Sensor[tiltMax] == 0 and buttons & cwiid.BTN_UP:									# keep going up until it hits the tilt sensor at max or until the user lets go of the dpad's up button
+		BrickPi.MotorSpeed[tiltMotor] = -120
 		BrickPiUpdateValues()	
-				
-	BrickPi.MotorSpeed[tiltMotor] = 0									# turn off the motor
-	BrickPiUpdateValues()
 	
+	if BrickPi.Sensor[tiltMax] == 1:
+		print "Max"
+		
+	#BrickPi.MotorSpeed[tiltMotor] = 0									# turn off the motor
+	BrickPiUpdateValues()
+	BrickPi.MotorSpeed[tiltMotor] = 0
 
 def down():
 	BrickPiUpdateValues()
 
-	while BrickPi.Sensor[tiltMin] == 0:								# keep going up until it hits the tilt sensor at max or until the user lets go of the dpad's down button
-		BrickPi.MotorSpeed[tiltMotor] = 15
-		BrickPiUpdateValues()		
-
-	BrickPi.MotorSpeed[tiltMotor] = 0									# turn off the motor
-	BrickPiUpdateValues()
+	if BrickPi.Sensor[tiltMin] == 0 and buttons & cwiid.BTN_DOWN:								# keep going up until it hits the tilt sensor at max or until the user lets go of the dpad's down button
+		BrickPi.MotorSpeed[tiltMotor] = 25
+		BrickPiUpdateValues()
 			
+	if BrickPi.Sensor[tiltMin] == 1:
+		print "Min"
+
+	#BrickPi.MotorSpeed[tiltMotor] = 0									# turn off the motor
+	BrickPiUpdateValues()
+	BrickPi.MotorSpeed[tiltMotor] = 0		
 
 def shoot():
 	while True:
@@ -98,7 +103,7 @@ def turnRight():
 print "Press 1 + 2 on your Wii Remote to connect to the turret..."
 time.sleep(1)
 
-try
+try:
 	wii = cwiid.Wiimote()												# attempt to connect the wii remote to the script
 except RuntimeError:
 	print "Error: Wii Remote cannot be connected..."					# exit the script if the wii remote cannot be connected
@@ -109,15 +114,15 @@ time.sleep(2)
 wii.rumble = 0
 	
 print "Wii Remote has been connected! \n"
-print "					Controls :"
-print "DPAD UP = Aim Up				DPAD DOWN = Aim Down"
-print "DPAD LEFT = Turn Left		DPAD RIGHT = Turn Right"
-print "					A B 1 2 = Shoot"
+print "\tControls :"
+print "DPAD UP = Aim Up\tDPAD DOWN = Aim Down"
+print "DPAD LEFT = Turn Left\tDPAD RIGHT = Turn Right"
+print "\t\tA B 1 2 = Shoot"
 print "\n Press + and - to exit the script"
 	
+wii.rpt_mode = cwiid.RPT_BTN											# set the mode to report button presses
 	
-	
-while flag:																# exit code when the user press + and - on the remote	
+while True:																# exit code when the user press + and - on the remote	
 	buttons = wii.state['buttons']										# get current remote states
 
 	if buttons - cwiid.BTN_PLUS - cwiid.BTN_MINUS == 0:					# check if the user pressed + and - simultaneously
@@ -126,16 +131,25 @@ while flag:																# exit code when the user press + and - on the remote
 		time.sleep(1)
 		wii.rumble = 0
 		exit(wii)
-		flag = False											
+		quit()									
 	
 	if buttons & cwiid.BTN_UP:											# perform function calls according to what the state of the wii remote is
 		up()
+		print "Up"
+		time.sleep(delay)
 	elif buttons & cwiid.BTN_DOWN:										
 		down()
+		print "Down"
+		time.sleep(delay)
 	elif buttons & cwiid.BTN_LEFT:										
-		turnLeft()	
+		#turnLeft()	
+		print "Left"
+		time.sleep(delay)
 	elif buttons & cwiid.BTN_RIGHT:										
-		turnRight()
+		#turnRight()
+		print "Right"
+		time.sleep(delay)
 	elif buttons & cwiid.BTN_A or buttons & cwiid.BTN_B or buttons & cwiid.BTN_1 or buttons & cwiid.BTN_2:
-		shoot()
-time.sleep(delay)
+		#shoot()
+		print "Shoot"
+		time.sleep(delay)
