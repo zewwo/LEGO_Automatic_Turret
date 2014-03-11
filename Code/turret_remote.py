@@ -1,12 +1,12 @@
 ''
 #######################################################
-# Program : 	turret_remote_v1.0
+# Program : 	turret_remote
 # Description : This program will perform the basic functions of the LEGO Turret.
 #		It will shoot, tilt up and down, and rotate by using a Wii remote.
 # History
 # ---------------------------------
 # Author	Date		Comment
-# Kevin		02.02.14	Added Wii Remote functionality, reduced motor speeds.
+# Kevin		02.03.14	Created.
 #######################################################
 ''
 

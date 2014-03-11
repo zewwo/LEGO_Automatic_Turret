@@ -2,7 +2,7 @@
 #######################################################
 # Program : 	turret_manual
 # Description : This program will perform the basic functions of the LEGO Turret.
-#				It will shoot, tilt up and down, and rotate.
+#		It will shoot, tilt up and down, and rotate.
 # History
 # ---------------------------------
 # Author	Date		Comment
