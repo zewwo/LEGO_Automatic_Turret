@@ -1,12 +1,11 @@
 ''
 #######################################################
-# Program : 	turret_remote
-# Description : This program will perform the basic functions of the LEGO Turret.
-#		It will shoot, tilt up and down, and rotate by using a Wii remote.
+# Program : 	turret_sensor_v1.0
+# Description : 
 # History
 # ---------------------------------
 # Author	Date		Comment
-# Kevin		02.03.14	Created.
+# Nathan	03.15.14	Created.
 #######################################################
 ''
 
@@ -22,6 +21,20 @@ from BrickPi import *
 
 import cwiid
 import time
+
+import sys
+import select
+import tty
+import termios
+import RPi.GPIO as io
+
+io.setmode(io.BCM)
+
+pir_pin = 18
+io.setup(pir_pin, io.IN)
+Current_State = 0
+Previous_State = 0
+
 
 BrickPiSetup();															# setup motor input
 
@@ -59,6 +72,9 @@ def shoot():
 	if buttons == 1:
 		BrickPi.MotorSpeed[shootMotor] = 255							# turn the motor on to shoot until the user lets go of the 2 button
 		BrickPiUpdateValues()
+	elif io.input(pir_pin):
+		BrickPi.MotorSpeed[shootMotor] = 255							# turn the motor on to shoot until the user lets go of the 2 button
+		BrickPiUpdateValues()
 
 
 def turnLeft():
@@ -72,6 +88,9 @@ def turnRight():
 		BrickPi.MotorSpeed[rotateMotor] = 80	
 		BrickPiUpdateValues()	
 
+def autoShoot():
+	if buttons & cwiid.BTN_HOME:
+		Current_State = 1
 
 print "\nPress 1 + 2 on your Wii Remote to connect to the turret..."
 time.sleep(1)
@@ -86,9 +105,7 @@ while True:											# keep looping until there is a wii remote connected
 wii.rumble = 1															# rumble for two seconds to indicate that it has been connected
 time.sleep(2)
 wii.rumble = 0
-
-wii.led = 1
-
+wii.led = 1	
 print "Wii Remote has been connected! \n"
 print "\tControls ( TURN WII REMOTE HORIZONTALLY ):"
 print "DPAD UP = Aim Up\tDPAD DOWN = Aim Down"
@@ -97,9 +114,10 @@ print "\t\t 2 = Shoot"
 print "\n Press + and - to exit the script"
 	
 wii.rpt_mode = cwiid.RPT_BTN											# set the mode to report button presses
-	
+
 while True:																# exit code when the user press + and - on the remote	
 	buttons = wii.state['buttons']										# get current remote states
+	
 
 	if buttons - cwiid.BTN_PLUS - cwiid.BTN_MINUS == 0:					# check if the user pressed + and - simultaneously
 		print "Exiting script and connection..."
@@ -119,7 +137,20 @@ while True:																# exit code when the user press + and - on the remote
 		turnRight()
 	elif buttons & cwiid.BTN_2:
 		shoot()
-	
+	elif buttons & cwiid.BTN_HOME:
+		while True:
+			huh = wii.state['buttons']
+			print "Looping"
+			if io.input(pir_pin):
+				shoot()
+			if huh & cwiid.BTN_1:
+				print "break"
+				break
+			time.sleep(0.1)
+		print "turn off"
+		BrickPi.MotorSpeed[shootMotor] = 0
+		BrickPiUpdateValues()		
+
 	if buttons == 0:													# if there are no buttons that are pressed turn all motors off
 		BrickPi.MotorSpeed[shootMotor] = 0
 		BrickPi.MotorSpeed[tiltMotor] = 0	
