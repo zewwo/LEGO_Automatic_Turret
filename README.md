@@ -18,12 +18,7 @@ To setup the BrickPi module onto your Raspberry Pi, go to Dexter Industries's [r
 To clone this repository:
   `git clone https://github.com/zewwo/LEGO_Automatic_Turret`
 
-To use the Python scripts in this repository:
-  `sudo python turret_remote.py`
-  
-  or 
-  
-  `sudo LEGO_Automatic_Turret/Code/turret_remote.py`
+To use the Python scripts in this repository: `sudo python turret_remote.py` or `sudo LEGO_Automatic_Turret/Code/turret_remote.py`
   
 
   
