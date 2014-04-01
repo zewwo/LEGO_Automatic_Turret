@@ -15,11 +15,18 @@ This project utilizes  the Raspberry Pi microcontroller, LEGO Mindstorms NXT 2.0
 
 To setup the BrickPi module onto your Raspberry Pi, go to Dexter Industries's [repository] (https://github.com/DexterInd/BrickPi_Python "BrickPi Python" ) on the BrickPi and follow their instructions to make the BrickPi module global.
 
+To clone this repository:
+  `git clone https://github.com/zewwo/LEGO_Automatic_Turret`
+
 To use the Python scripts in this repository:
-  'sudo python turret_remote.py'
+  `sudo python turret_remote.py`
+  
+  or 
+  
+  `sudo LEGO_Automatic_Turret/Code/turret_remote.py`
   
 
-
+  
 
 
 **Raspberry Pi:** http://www.raspberrypi.org/
