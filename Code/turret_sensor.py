@@ -18,6 +18,7 @@
 # 2	     -> shoot ( disabled in auto shoot mode )
 # HOME	     -> auto shoot mode ( from remote mode )
 # 1          -> remote mode ( from auto shoot )
+
 from BrickPi import *
 
 import cwiid
