@@ -23,7 +23,6 @@ from BrickPi import *
 
 import cwiid
 import time
-
 import sys
 import select
 import tty
