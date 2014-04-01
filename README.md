@@ -1,4 +1,4 @@
-LEGO "Automatic" Turret
+LEGO Turret
 =====================
 
 *Git Repository created by Kevin Nguyen.*
@@ -9,8 +9,11 @@ The contents in this repo contains past models and code used for this project.
 
 ---
 
-This project utilizes  the Raspberry Pi microcontroller, LEGO Mindstorms NXT 2.0, and the BrickPi module for the Raspberry Pi.
-In the near future we are planning to implement a remote controller and PIR sensor to this turret.
+This project utilizes  the Raspberry Pi microcontroller, LEGO Mindstorms NXT 2.0, and the BrickPi module for the Raspberry Pi. An external sensor was used for the "turret_sensor.py" and requires a PIR sensor to operate this code.
+
+---
+
+To setup the BrickPi module onto your Raspberry Pi, go to Dexter Industries's [repository] (https://github.com/DexterInd/BrickPi_Python "BrickPi Python" ) on the BrickPi and follow their instructions to make the BrickPi module global.
 
 
 **Raspberry Pi:** http://www.raspberrypi.org/
