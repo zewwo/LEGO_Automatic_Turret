@@ -98,40 +98,6 @@ def turnRight():
 		BrickPi.MotorSpeed[rotateMotor] = 130	
 		BrickPiUpdateValues()
 
-def sensor():
-	while True:
-		if senseButs & cwiid.BTN_1:						# go back to normal mode if user pressed 1
-			wii.rumble = 1
-			time.sleep(1)
-			wii.rumble = 0
-			break
-		
-		if senseButs & cwiid.BTN_RIGHT:
-			up()
-			print "beh"
-		elif senseButs & cwiid.BTN_LEFT:
-			down()
-			print "sbeh"
-		elif senseButs & cwiid.BTN_UP:
-			turnLeft()
-			print "xbeh"
-		elif senseButs & cwiid.BTN_DOWN:
-			turnRight()
-			print "nbeh"
-		if senseButs == 0:
-			BrickPi.MotorSpeed[tiltMotor] = 0	
-			BrickPi.MotorSpeed[rotateMotor] = 0	
-			BrickPiUpdateValues()
-
-		if io.input(pir_pin):							# shoot for 4s if the sensor activates
-			shoot()
-			print "shoot"
-		else:
-			BrickPi.MotorSpeed[shootMotor] = 0
-			BrickPiUpdateValues()	
-			print "off"	
-		time.sleep(delay)
-
 
 print "\nPress 1 + 2 on your Wii Remote to connect to the turret..."
 time.sleep(1)
