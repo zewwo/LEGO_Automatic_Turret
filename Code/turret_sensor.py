@@ -61,18 +61,14 @@ def up():
 		BrickPi.MotorSpeed[tiltMotor] = -130
 		BrickPiUpdateValues()
 
-
 def down():
 	if BrickPi.Sensor[tiltMin] == 0:					# go down until it hits the tilt sensor at max or until the user lets go of the dpad's left button
 		BrickPi.MotorSpeed[tiltMotor] = 30		
 		BrickPiUpdateValues()
 
-	
-
 def shoot():
 	BrickPi.MotorSpeed[shootMotor] = 255					# turn the motor on to shoot until the user lets go of the 2 button
 	BrickPiUpdateValues()
-
 
 def turnLeft():									# turn left until the user lets go of the dpad's left button
 	BrickPi.MotorSpeed[rotateMotor] = -130
@@ -115,7 +111,6 @@ while True:														# exit code when the user press + and - on the remote
 	aim = False								# bools representing if the motor is on or not
 	shot = False
 	turn = False
-	
 	
 	if buttons - cwiid.BTN_PLUS - cwiid.BTN_MINUS == 0:			# check if the user pressed + and - simultaneously
 		print "Exiting script and connection..."
@@ -178,7 +173,6 @@ while True:														# exit code when the user press + and - on the remote
 				BrickPi.MotorSpeed[shootMotor] = 0
 				BrickPiUpdateValues()	
 				
-				
 			if !senseAim:	
 				BrickPi.MotorSpeed[tiltMotor] = 0
 				BrickPiUpdateValues()
@@ -194,13 +188,13 @@ while True:														# exit code when the user press + and - on the remote
 		print "2 = Shoot\t\tHOME = Go to Auto Shoot Mode!"
 		print "\nPress + and - to exit the script"
 	
-	if !aim:								# if any of the lock bools is false, turn off the respective motors
+	if aim == False:								# if any of the lock bools is false, turn off the respective motors
 		BrickPi.MotorSpeed[tiltMotor] = 0
 		BrickPiUpdateValues()
-	if !shot:
+	if shot == False:
 		BrickPi.MotorSpeed[shootMotor] = 0
 		BrickPiUpdateValues()	
-	if !turn:
+	if turn == False:
 		BrickPi.MotorSpeed[rotateMotor] = 0
 		BrickPiUpdateValues()
 
