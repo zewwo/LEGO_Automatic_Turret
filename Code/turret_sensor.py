@@ -173,10 +173,10 @@ while True:														# exit code when the user press + and - on the remote
 				BrickPi.MotorSpeed[shootMotor] = 0
 				BrickPiUpdateValues()	
 				
-			if !senseAim:	
+			if senseAim == False:	
 				BrickPi.MotorSpeed[tiltMotor] = 0
 				BrickPiUpdateValues()
-			if !senseTurn:
+			if senseTurn == False:
 				BrickPi.MotorSpeed[rotateMotor] = 0
 				BrickPiUpdateValues()
 				
